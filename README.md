@@ -38,5 +38,5 @@ npm start
 
 ### Authentication Routes
 
-1. /auth/register - This is a post route to register users. Request body should contain following: **_name, email, role, password_**
-2. /auth/login - This is post route to login users. Request body should contain following: **_email, role, password_**
+1. /auth/register - This is a post route to register users. Request body should contain following: **_name, email, password_**
+2. /auth/login - This is post route to login users. Request body should contain following: **_email, password_**

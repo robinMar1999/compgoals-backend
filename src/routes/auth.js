@@ -15,19 +15,18 @@ const router = Router();
 router.post("/register", validateRegBody, async (req, res) => {
   try {
     console.log(req.body);
-    const { name, email, role, password } = req.body;
+    const { name, email, password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const user = new User({
       name,
       email,
-      role,
+
       password: hashedPassword,
     });
     await user.save();
     const payload = {
       id: user.id,
-      role,
     };
     const token = jwt.sign(payload, config.jwtSecret);
     res.status(201).json({ token });
@@ -42,9 +41,9 @@ router.post("/register", validateRegBody, async (req, res) => {
 // @access  Public
 router.post("/login", validateLoginBody, async (req, res) => {
   try {
-    const { email, role, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ email, role });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
@@ -54,7 +53,6 @@ router.post("/login", validateLoginBody, async (req, res) => {
     }
     const payload = {
       id: user.id,
-      role,
     };
     const token = jwt.sign(payload, config.jwtSecret);
     res.status(201).json({ token });
